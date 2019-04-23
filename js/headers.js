@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $("#searchHeader").load("searchBar.html" , function () {
+    $("#searchHeader").load("searchBar.html", function () {
 
         var searchBar = $('#cardNameSearch');
         var timeout = null;
@@ -43,6 +43,29 @@ $(document).ready(function () {
             }
         }
     })
+    $("#navigation").load("navbar.html", function(){
+        var firstLink = $('#login-account');
+        var secondLink = $('#register-logout');
+
+        firstLink.text("Login");
+        firstLink.attr("href", "http://google.pl")
+        secondLink.text("Register");
+        secondLink.attr("href", "http://amazon.co.uk");
+
+        if (checkIfCookieExists("user")===true){
+            firstLink.text("Profil");
+            secondLink.text("Wyloguj");
+        }
+
+        function checkIfCookieExists(cookieName) {
+            var cookies = document.cookie;
+            if(cookies.includes(" " +cookieName + "=")){
+                return true;
+            }
+            return false;
+          }
+    });
 });
+
 
 
