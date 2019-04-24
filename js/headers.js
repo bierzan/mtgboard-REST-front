@@ -50,7 +50,7 @@ $(document).ready(function () {
         firstLink.text("Login");
         firstLink.attr("href", "http://google.pl")
         secondLink.text("Register");
-        secondLink.attr("href", "http://amazon.co.uk");
+        secondLink.attr("href", "./userForm.html");
 
         if (checkIfCookieExists("user")===true){
             firstLink.text("Profil");
