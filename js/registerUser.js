@@ -1,7 +1,7 @@
 
 $(document).ready(function () {
     registerUser();
-    
+
 })
 
 function registerUser() {
@@ -21,6 +21,18 @@ function registerUser() {
         }).done(function (result) {
             alert("zarejestrowano uzytkownika");
             window.location.replace("./index.html");
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            var exceptions = jqXHR.responseJSON.exceptions;
+
+            var exceptionMessages = $('<div>');
+
+            for (var i = 0; i < exceptions.length; i++) {
+                var exMessage = $('<p>');
+                exMessage.text(exceptions[i]);
+                exceptionMessages.append(exMessage);
+            }
+
+            $('body').prepend(exceptionMessages);
         })
     });
 }
