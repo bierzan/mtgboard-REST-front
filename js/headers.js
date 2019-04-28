@@ -5,6 +5,8 @@ $(document).ready(function () {
         var timeout = null;
         var RESTQueryDelay = 1000
         var suggestedCards = $('datalist');
+        var submitBtn = $('#searchCard');
+        var mainContent = $('#main');
 
         searchBar.on('keyup', function () {
 
@@ -42,7 +44,31 @@ $(document).ready(function () {
                 suggestedCards.append(option);
             }
         }
+
+        submitBtn.click(function(event){
+            event.preventDefault();
+            var inputValue = searchBar.val().split("(");
+            console.log(inputValue);
+            var cardFullName = inputValue[0].substring(0,inputValue[0].length-1);
+            var setCode = inputValue[1].substring(0,inputValue[1].length-1);
+
+            console.log(cardFullName);
+            console.log(setCode);
+            $.ajax({
+                url: "https://api.magicthegathering.io/v1/cards?name=" + cardFullName+"&set="+setCode,
+                data: {},
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json"
+            }).done(function (result) {
+                console.log(result);
+                localStorage.setItem('card', JSON.stringify(result.cards[0]));
+                mainContent.empty();
+                mainContent.load("./cardPage.html")
+            })
+        })
     })
+
     $("#navigation").load("navbar.html", function(){
         var firstLink = $('#login-account');
         var secondLink = $('#register-logout');

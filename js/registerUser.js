@@ -22,13 +22,13 @@ function registerUser() {
             alert("zarejestrowano uzytkownika");
             window.location.replace("./index.html");
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            var exceptions = jqXHR.responseJSON.exceptions;
+            var errors = jqXHR.responseJSON.errors;
 
             var exceptionMessages = $('<div>');
 
-            for (var i = 0; i < exceptions.length; i++) {
+            for (var i = 0; i < errors.length; i++) {
                 var exMessage = $('<p>');
-                exMessage.text(exceptions[i]);
+                exMessage.text(errors[i]);
                 exceptionMessages.append(exMessage);
             }
 
