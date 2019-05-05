@@ -8,7 +8,7 @@ $(document).ready(function () {
         var submitBtn = $('#searchCard');
         var mainContent = $('#main');
         var cardFullName;
-        var setCode;
+        var setName;
 
         searchBar.on('keyup', function () {
 
@@ -35,56 +35,18 @@ $(document).ready(function () {
                   submitBtn.click(function (event) {
                     event.preventDefault();
                     getCardNameAndSetFromSearchInput();
-                    getAndLoadCardByNameAndSetFromAPI();
+                    //sprawdzic czy karta jest w bazie danych jak nie to dodac i dopiero ja pobrac do wyswietlenia
+                    getAndLoadCardByNameAndSetName();
                 })
                 //submit button wywoluje get z bazy danych
 
             })
         }
 
-///////////////////////////////////////////
-        // function getCardsByPartialNameFromDB() {
-        //     $.ajax({
-        //         url: "http://localhost:8080/mtg/cards/name-part/" + searchBar.val(),
-        //         data: {},
-        //         type: "GET",
-        //         dataType: "json",
-        //         contentType: "application/json"
-        //     }).done(function (result) {
-        //         suggestedCards.empty();
-        //         submitBtn.off('click');
-        //         putCardsAsSearchOptions(result);
-        //         //submit button wywoluje get z bazy danych
-        //     }).fail(function (jqXHR, textStatus, errorThrown) {
-        //         getCardsByPartialNameFromAPI();
-        //     })
-        // }
-        // function getCardsByPartialNameFromAPI() {
-        //     $.ajax({
-        //         url: "https://api.magicthegathering.io/v1/cards?name=" + searchBar.val(),
-        //         data: {},
-        //         type: "GET",
-        //         dataType: "json",
-        //         contentType: "application/json"
-        //     }).done(function (result) {
-        //         suggestedCards.empty();
-        //         submitBtn.off('click');//sprawdzic czy działa zdejmowanie eventu
-        //         putCardsAsSearchOptions(result);
-
-        //         submitBtn.click(function (event) {
-        //             event.preventDefault();
-        //             getCardNameAndSetFromSearchInput();
-        //             getAndLoadCardByNameAndSetFromAPI();
-
-        //         })
-        //     })
-        // }
-
-        /////////////////////////
         function getCardNameAndSetFromSearchInput() {
             var searchInputValue = searchBar.val().split("(");
             cardFullName = searchInputValue[0].substring(0, searchInputValue[0].length - 1);
-            setCode = searchInputValue[1].substring(0, searchInputValue[1].length - 1);
+            setName = searchInputValue[1].substring(0, searchInputValue[1].length - 1);
         }
         function putCardsAsSearchOptions(jsonArray) {
 
@@ -97,20 +59,19 @@ $(document).ready(function () {
                 suggestedCards.append(option);
             }
         }
-        function getAndLoadCardByNameAndSetFromAPI() {
+        function getAndLoadCardByNameAndSetName() {
 
             $.ajax({
-                url: "https://api.magicthegathering.io/v1/cards?name=" + cardFullName + "&set=" + setCode,
+                url: "http://localhost:8080/mtg/cards/name/set/" + cardFullName + "/" + setName,
                 data: {},
                 type: "GET",
                 dataType: "json",
                 contentType: "application/json"
             }).done(function (result) {
-                localStorage.setItem('card', JSON.stringify(result.cards[0]));
-                //zamienic local storag na save do bazy danych, a load ma wywoływac konkretną karte po multiverse id z DB
+                localStorage.setItem('card', JSON.stringify(result));
                 mainContent.empty();
                 mainContent.load("./cardPage.html")
-            })
+            }) //dopisac fail z postem do bazy danych i ponownym getem
         }
     })
 
