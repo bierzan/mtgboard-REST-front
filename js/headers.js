@@ -35,11 +35,8 @@ $(document).ready(function () {
                   submitBtn.click(function (event) {
                     event.preventDefault();
                     getCardNameAndSetFromSearchInput();
-                    //sprawdzic czy karta jest w bazie danych jak nie to dodac i dopiero ja pobrac do wyswietlenia
                     getAndLoadCardByNameAndSetName();
                 })
-                //submit button wywoluje get z bazy danych
-
             })
         }
 
@@ -71,7 +68,23 @@ $(document).ready(function () {
                 localStorage.setItem('card', JSON.stringify(result));
                 mainContent.empty();
                 mainContent.load("./cardPage.html")
-            }) //dopisac fail z postem do bazy danych i ponownym getem
+            }).fail(function(){
+                postCardByNameAndSetNameIntoDB();
+            }) 
+        }
+
+        function postCardByNameAndSetNameIntoDB(){
+            $.ajax({
+                url: "http://localhost:8080/mtg/cards/name/set/" + cardFullName + "/" + setName,
+                data: {},
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json"
+            }).done(function (result) {
+                localStorage.setItem('card', JSON.stringify(result));
+                mainContent.empty();
+                mainContent.load("./cardPage.html")
+            })
         }
     })
 
