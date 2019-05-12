@@ -10,7 +10,7 @@ $(document).ready(function () {
         var cardFullName;
         var setName;
         var cardToLoad;
-        var host = location.origin;
+        var host = "http://localhost:8080";
 
         searchBar.on('keyup', function () {
 

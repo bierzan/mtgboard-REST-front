@@ -1,6 +1,5 @@
 
 $(document).ready(function () {
-    
     loginUser();
 
 })
@@ -23,8 +22,9 @@ function loginUser() {
             dataType: "json",
             contentType: "application/json",
             crossDomain: true,
-        }).done(function (result,jqXHR, status) {
+        }).done(function (result) {
             alert("zalogowano uzytkownika.");
+            localStorage.setItem('token', JSON.stringify(result));
             window.location.replace("./index.html");
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var errors = jqXHR.responseJSON.errors;
