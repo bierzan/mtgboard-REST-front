@@ -67,7 +67,7 @@ $(document).ready(function () {
                 dataType: "json",
                 contentType: "application/json"
             }).done(function (result) {
-                localStorage.setItem('card', JSON.stringify(result));
+                sessionStorage.setItem('card', JSON.stringify(result));
                 mainContent.empty();
                 mainContent.load("./cardPage.html")
             }).fail(function () {
@@ -85,7 +85,7 @@ $(document).ready(function () {
             }).done(function (result) {
                 findCardBySetNameFromJSONArray(result, setName);
                 console.log(cardToLoad);
-                localStorage.setItem('card', JSON.stringify(cardToLoad));
+                sessionStorage.setItem('card', JSON.stringify(cardToLoad));
                 mainContent.empty();
                 mainContent.load("./cardPage.html")
             })
@@ -109,14 +109,19 @@ $(document).ready(function () {
         secondLink.text("Register");
         secondLink.attr("href", "./userForm.html");
 
-        if (checkIfCookieExists("user") === true) {
+        if (checkIfTokenExists("user") === true) {
             firstLink.text("Profil");
             secondLink.text("Wyloguj");
+            secondLink.on('click', function (e) {
+                e.preventDefault();
+                sessionStorage.removeItem('token');
+                location.reload();
+
+            })
         }
 
-        function checkIfCookieExists(cookieName) {
-            var cookies = document.cookie;
-            if (cookies.includes(" " + cookieName + "=")) {
+        function checkIfTokenExists(cookieName) {
+            if (sessionStorage.getItem('token')!=null) {
                 return true;
             }
             return false;

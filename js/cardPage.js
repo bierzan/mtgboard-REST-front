@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var cardInfo = $('#cardInfo');
-    var card = localStorage.getItem('card');
+    var card = sessionStorage.getItem('card');
 
     var cardJson = JSON.parse(card);
     cardInfo.append(cardJson.name);
