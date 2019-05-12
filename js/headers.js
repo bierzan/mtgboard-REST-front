@@ -116,7 +116,6 @@ $(document).ready(function () {
                 e.preventDefault();
                 sessionStorage.removeItem('token');
                 location.reload();
-
             })
         }
 
