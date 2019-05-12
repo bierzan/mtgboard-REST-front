@@ -105,7 +105,7 @@ $(document).ready(function () {
         var secondLink = $('#register-logout');
 
         firstLink.text("Login");
-        firstLink.attr("href", "http://google.pl")
+        firstLink.attr("href", "./userLogin.html")
         secondLink.text("Register");
         secondLink.attr("href", "./userForm.html");
 
