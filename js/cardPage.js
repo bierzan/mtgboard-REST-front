@@ -9,7 +9,7 @@ $(document).ready(function () {
     $("#manaCost").append(cardJson.manaCost);
     $("#rarity").append(cardJson.rarity);
     $("#type").append(cardJson.type);
-    $("#text").append(cardJson.text);
+    $("#text").append(cardJson.text.replace(/\n/g, "<br />"));
     $("#flavor").append(cardJson.flavor);
     
 })
