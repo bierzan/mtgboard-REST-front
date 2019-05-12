@@ -9,6 +9,8 @@ $(document).ready(function () {
         var mainContent = $('#main');
         var cardFullName;
         var setName;
+        var cardToLoad;
+        var host = location.origin;
 
         searchBar.on('keyup', function () {
 
@@ -16,14 +18,14 @@ $(document).ready(function () {
                 suggestedCards.empty();
                 return;
             }
-        
+
             clearTimeout(timeout);
             timeout = setTimeout(getCardsByPartialName, RESTQueryDelay);
         })
 
         function getCardsByPartialName() {
             $.ajax({
-                url: "http://localhost:8080/mtg/cards/name/like/" + searchBar.val(),
+                url: host + "/cards/name/like/" + searchBar.val(),
                 data: {},
                 type: "GET",
                 dataType: "json",
@@ -32,7 +34,7 @@ $(document).ready(function () {
                 suggestedCards.empty();
                 putCardsAsSearchOptions(result);
                 submitBtn.off('click');
-                  submitBtn.click(function (event) {
+                submitBtn.click(function (event) {
                     event.preventDefault();
                     getCardNameAndSetFromSearchInput();
                     getAndLoadCardByNameAndSetName();
@@ -59,7 +61,7 @@ $(document).ready(function () {
         function getAndLoadCardByNameAndSetName() {
 
             $.ajax({
-                url: "http://localhost:8080/mtg/cards/name/set/" + cardFullName + "/" + setName,
+                url: host + "/cards/name/set/" + cardFullName + "/" + setName,
                 data: {},
                 type: "GET",
                 dataType: "json",
@@ -68,23 +70,33 @@ $(document).ready(function () {
                 localStorage.setItem('card', JSON.stringify(result));
                 mainContent.empty();
                 mainContent.load("./cardPage.html")
-            }).fail(function(){
-                postCardByNameAndSetNameIntoDB();
-            }) 
+            }).fail(function () {
+                postCardsByNameIntoDB();
+            })
         }
 
-        function postCardByNameAndSetNameIntoDB(){
+        function postCardsByNameIntoDB() {
             $.ajax({
-                url: "http://localhost:8080/mtg/cards/name/set/" + cardFullName + "/" + setName,
+                url: host + "/cards/name/" + cardFullName,
                 data: {},
                 type: "POST",
                 dataType: "json",
                 contentType: "application/json"
             }).done(function (result) {
-                localStorage.setItem('card', JSON.stringify(result));
+                findCardBySetNameFromJSONArray(result, setName);
+                console.log(cardToLoad);
+                localStorage.setItem('card', JSON.stringify(cardToLoad));
                 mainContent.empty();
                 mainContent.load("./cardPage.html")
             })
+        }
+
+        function findCardBySetNameFromJSONArray(cardsArray, setName) {
+            for (var i = 0; i < cardsArray.length; i++) {
+                if (cardsArray[i].set.name === setName) {
+                    cardToLoad = cardsArray[i];
+                }
+            }
         }
     })
 
