@@ -1,31 +1,30 @@
 
 $(document).ready(function () {
-    
-    registerUser();
+    loginUser();
 
 })
 
-function registerUser() {
-    $('#registerUser').on('click', function (e) {
+function loginUser() {
+    $('#loginUser').on('click', function (e) {
         var host = "http://localhost:8080";
         e.preventDefault();
         var user = {
             "username": $('#username').val(),
-            "email": $('#email').val(),
             "password": $('#password').val(),
         };
         $.ajax({
-            url: host + "/users/",
+            url: host + "/users/login",
             data: JSON.stringify(user),
             type: "POST",
             xhrFields: {
                 withCredentials: true
               },
-            // dataType: "json",
+            dataType: "json",
             contentType: "application/json",
             crossDomain: true,
-        }).done(function (result,jqXHR, status) {
-            alert("zarejestrowano uzytkownika.\nZaloguj się jako nowy użytkownik");
+        }).done(function (result) {
+            alert("zalogowano uzytkownika.");
+            sessionStorage.setItem('token', JSON.stringify(result));
             window.location.replace("./index.html");
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var errors = jqXHR.responseJSON.errors;
