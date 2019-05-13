@@ -37,7 +37,8 @@ $(document).ready(function () {
                 submitBtn.click(function (event) {
                     event.preventDefault();
                     getCardNameAndSetFromSearchInput();
-                    getAndLoadCardByNameAndSetName();
+                    window.location.href ='./card.html?name=' + cardFullName + '&set='+ setName;
+                    // getAndLoadCardByNameAndSetName();
                 })
             })
         }
@@ -47,6 +48,8 @@ $(document).ready(function () {
             cardFullName = searchInputValue[0].substring(0, searchInputValue[0].length - 1);
             setName = searchInputValue[1].substring(0, searchInputValue[1].length - 1);
         }
+
+
         function putCardsAsSearchOptions(jsonArray) {
 
             for (var i = 0; i < jsonArray.length; i++) {
@@ -58,6 +61,8 @@ $(document).ready(function () {
                 suggestedCards.append(option);
             }
         }
+
+        ///////////// end of card queries
         function getAndLoadCardByNameAndSetName() {
 
             $.ajax({
