@@ -1,14 +1,12 @@
 $(document).ready(function () {
     var params = new URLSearchParams(document.location.search.substring(1));
     var cardFullName = params.get('name').replace(/%20/g," ");
-    
     var setName = params.get("set").replace(/%20/g," ");
     var host = "http://localhost:8080";
     var cardToLoad;
 
+    $("title").text("MTG-BOARD "+ cardFullName +" "+ setName);
     getAndLoadCardByNameAndSetName();
-
-    // var card = sessionStorage.getItem('card');
 
     function getAndLoadCardByNameAndSetName() {
 
@@ -20,13 +18,11 @@ $(document).ready(function () {
             contentType: "application/json"
         }).done(function (result) {
             fillWebsiteWithCardData(result);
-            // sessionStorage.setItem('card', JSON.stringify(result));
-            // mainContent.empty();
-            // mainContent.load("./cardPage.html")
         }).fail(function () {
             postCardsByNameIntoDB();
         })
     }
+
     function fillWebsiteWithCardData(JsonCard) {
         var cardJson = JsonCard;
         $("#cardImage").append("<img src=" + cardJson.imageUrl + " alt=" + cardJson.name + " >")
@@ -49,10 +45,6 @@ $(document).ready(function () {
         }).done(function (result) {
             findCardBySetNameFromJSONArray(result, setName);
             fillWebsiteWithCardData(cardToLoad);
-            // console.log(cardToLoad);
-            // sessionStorage.setItem('card', JSON.stringify(cardToLoad));
-            // mainContent.empty();
-            // mainContent.load("./cardPage.html")
         })
     }
 
