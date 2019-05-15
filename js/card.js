@@ -1,12 +1,19 @@
 $(document).ready(function () {
     var params = new URLSearchParams(document.location.search.substring(1));
-    var cardFullName = params.get('name').replace(/%20/g," ");
-    var setName = params.get("set").replace(/%20/g," ");
+    var cardFullName = params.get('name').replace(/%20/g, " ");
+    var setName = params.get("set").replace(/%20/g, " ");
     var host = "http://localhost:8080";
     var cardToLoad;
 
-    $("title").text("MTG-BOARD "+ cardFullName +" "+ setName);
+    $("title").text("MTG-BOARD " + cardFullName + " " + setName);
     getAndLoadCardByNameAndSetName();
+
+    $("#wantCard").click(function (e) {
+        e.preventDefault();
+        $("#wantedForm").toggle("fast");
+    })
+
+    submitCard();
 
     function getAndLoadCardByNameAndSetName() {
 
@@ -33,6 +40,7 @@ $(document).ready(function () {
         $("#type").append(cardJson.type);
         $("#text").append(cardJson.text.replace(/\n/g, "<br />"));
         $("#flavor").append(cardJson.flavor);
+        $("#cardId").val(cardJson.id);
     }
 
     function postCardsByNameIntoDB() {
@@ -54,6 +62,51 @@ $(document).ready(function () {
                 cardToLoad = cardsArray[i];
             }
         }
+    }
+
+    function submitCard() {
+        $('#submitCard').click(function (e) {
+            
+            var host = "http://localhost:8080";
+            e.preventDefault();
+            var token = JSON.parse(sessionStorage.getItem("token"));
+
+            var submittedCard = {
+                "cardId": $('#cardId').val(),
+                "quantity": $('#quantity').val(),
+                "language": $('#lang').val(),
+                "condition": $('#condition').val(),
+                "comment": $('#comment').val(),
+                "isFoiled": $('#isFoiled').prop("checked"),
+                "isSigned": $('#isSigned').prop("checked"),
+                "isAltered": $('#isAltered').prop("checked"),
+                "price": $('#price').val(),
+            };
+            $.ajax({
+                url: host + "/users/cards/",
+                data: JSON.stringify(submitCard),
+                type: "POST",
+                headers: {
+                    "authId": token.userId,
+                    "authToken": token.mtgAuthToken
+                },
+                xhrFields: {
+                    withCredentials: true
+                },
+                dataType: "json",
+                contentType: "application/json",
+                crossDomain: true,
+            }).done(function (result, jqXHR, status) {
+                alert("dodano kartę");
+                console.log(submitCard);
+                // window.location.replace("./index.html");
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(submittedCard);
+                console.log("nie dodano karty");
+            })
+        });
+
+
     }
 })
 

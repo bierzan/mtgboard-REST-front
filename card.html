@@ -2,55 +2,125 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>MTG-BOARD</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <meta charset="utf-8">
+        <title>MTG-BOARD</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+                crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <script src="js/navbar.js"></script>
-     <script src="js/searchbar.js"></script>
-     <script src="js/card.js"></script>
-   
+        <script src="js/navbar.js"></script>
+        <script src="js/searchbar.js"></script>
+        <script src="js/card.js"></script>
+
 </head>
 
-<body>
-    <div id="navigation"></div>
-    <div id="searchHeader"></div>
-    <div class="table-responsive container">
-        <table class="table">
-                <tr><td colspan="2"><h3></h3></td></tr>
-                <tr><td colspan="2"><h5></h5></td></tr>
-                <tr>
-                        <td rowspan="5" id="cardImage">
-                        </td>
-                        <td id="manaCost">
-                        </td>
-                </tr>
-                <tr>
-                        <td id="rarity"></td>
-                </tr>
-                <tr>
-                        <td id="type"></td>
-                </tr>
-                <tr>
-                        <td id="text"></td>
-                </tr>
-                <tr>
-                        <td id="flavor"></td>
-                </tr>
-        </table>
-</div>
+<body class="container">
+        <div id="navigation"></div>
+        <div id="searchHeader"></div>
+        <div class="table-responsive container" id="cardInfo">
+                <table class="table">
+                        <tr>
+                                <td colspan="2">
+                                        <h3></h3>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td colspan="2">
+                                        <h5></h5>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td rowspan="6" id="cardImage">
+                                </td>
+                                <td id="manaCost">
+                                </td>
+                        </tr>
+                        <tr>
+                                <td id="rarity"></td>
+                        </tr>
+                        <tr>
+                                <td id="type"></td>
+                        </tr>
+                        <tr>
+                                <td id="text"></td>
+                        </tr>
+                        <tr>
+                                <td id="flavor"></td>
+                        </tr>
+                        <tr>
+                                <td>
+                                        <button type="button" class="btn btn-primary btn-block btn-sm"
+                                                id="wantCard">Chcę
+                                                kupić</button>
+                                        <button type="button" class="btn btn-primary btn-block btn-sm">Chcę
+                                                sprzedać</button>
+                                </td>
+                        </tr>
+                </table>
+        </div>
+        <div class="container" style="display: none" id="wantedForm">
+                <form class="form-horizontal">
+                        <div class="form-group" style="display: none">
+                                <label for="cardId">Ilość:</label>
+                                <input type="number" min="1" class="form-control" id="cardId" disabled="disabled">
+                        </div>
+                        <div class="form-group">
+                                <label for="quantity">Ilość:</label>
+                                <input type="number" min="1" class="form-control" id="quantity">
+                        </div>
+                        <div class="form-group">
+                                <label for="lang">Język:</label>
+                                <input type="text" class="form-control" id="lang">
+                        </div>
+                        <div class="form-group">
+                                <label for="condition">Stan karty:</label>
+                                <select class="form-control" id="condition">
+                                        <option value="M">Mint</option>
+                                        <option value="NM">Near Mint</option>
+                                        <option value="EX">Excellent</option>
+                                        <option value="GD">Good</option>
+                                        <option value="LP">Light Played</option>
+                                        <option value="PL">Played</option>
+                                        <option value="POOR">Poor</option>
+                                </select>
 
+                        </div>
+                        <div class="form-group">
+                                <label for="comment">Komentarz:</label>
+                                <textarea class="form-control" rows="2" id="comment"></textarea>
+                        </div>
+                        <div class=>
+                                <div class="checkbox">
+                                        <label><input type="checkbox" id="isFoiled">Foil</label>
+                                </div>
+                                <div class="checkbox">
+                                        <label><input type="checkbox" id="isSigned">Podpisana</label>
+                                </div>
+                                <div class="checkbox">
+                                        <label><input type="checkbox" id="isAltered">Alter</label>
+                                </div>
+                        </div>
+                        <div class="form-group">
+                                <label for="price">Cena:</label>
+                                <input type="number" class="form-control" id="price" min="0.01" step="0.01">
+                        </div>
+                        <button type="button" class="btn btn-primary btn-block btn-sm" id="submitCard">Wystaw ofertę
+                                kupna</button>
+                </form>
+
+        </div>
+
+</body>
 
 </body>
 
