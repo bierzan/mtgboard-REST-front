@@ -41,8 +41,20 @@ $(document).ready(function () {
         $("#text").append(cardJson.text.replace(/\n/g, "<br />"));
         $("#flavor").append(cardJson.flavor);
         $("#cardId").val(cardJson.id);
-    }
 
+        var languages = cardJson.languages.split(", ");
+        for (var i = 0; i < languages.length; i++) {
+            $("#languages").append("<option>" + languages[i] + "</option>")
+        }
+
+    }
+    function findCardBySetNameFromJSONArray(cardsArray, setName, callback) {
+        for (var i = 0; i < cardsArray.length; i++) {
+            if (cardsArray[i].set.name === setName) {
+                cardToLoad = cardsArray[i];
+            }
+        }
+    }
     function postCardsByNameIntoDB() {
         $.ajax({
             url: host + "/cards/name/" + cardFullName,
@@ -56,17 +68,11 @@ $(document).ready(function () {
         })
     }
 
-    function findCardBySetNameFromJSONArray(cardsArray, setName) {
-        for (var i = 0; i < cardsArray.length; i++) {
-            if (cardsArray[i].set.name === setName) {
-                cardToLoad = cardsArray[i];
-            }
-        }
-    }
+
 
     function submitCard() {
         $('#submitCard').click(function (e) {
-            
+
             var host = "http://localhost:8080";
             e.preventDefault();
             var token = JSON.parse(sessionStorage.getItem("token"));
@@ -81,10 +87,11 @@ $(document).ready(function () {
                 "isSigned": $('#isSigned').prop("checked"),
                 "isAltered": $('#isAltered').prop("checked"),
                 "price": $('#price').val(),
+                "userId": token.userId
             };
             $.ajax({
-                url: host + "/users/cards/",
-                data: JSON.stringify(submitCard),
+                url: host + "/user/cards",
+                data: JSON.stringify(submittedCard),
                 type: "POST",
                 headers: {
                     "authId": token.userId,
@@ -93,7 +100,7 @@ $(document).ready(function () {
                 xhrFields: {
                     withCredentials: true
                 },
-                dataType: "json",
+                // dataType: "json",
                 contentType: "application/json",
                 crossDomain: true,
             }).done(function (result, jqXHR, status) {
