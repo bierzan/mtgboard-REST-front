@@ -51,7 +51,7 @@ $(document).ready(function () {
     function findCardBySetNameFromJSONArray(cardsArray, setName, callback) {
         for (var i = 0; i < cardsArray.length; i++) {
             if (cardsArray[i].set.name === setName) {
-                cardToLoad = cardsArray[i];
+                return cardsArray[i];
             }
         }
     }
@@ -63,12 +63,10 @@ $(document).ready(function () {
             dataType: "json",
             contentType: "application/json"
         }).done(function (result) {
-            findCardBySetNameFromJSONArray(result, setName);
-            fillWebsiteWithCardData(cardToLoad);
+           
+            fillWebsiteWithCardData(findCardBySetNameFromJSONArray(result, setName));
         })
     }
-
-
 
     function submitCard() {
         $('#submitCard').click(function (e) {
@@ -80,14 +78,16 @@ $(document).ready(function () {
             var submittedCard = {
                 "cardId": $('#cardId').val(),
                 "quantity": $('#quantity').val(),
-                "language": $('#lang').val(),
+                "language": $('#languages').val(),
                 "condition": $('#condition').val(),
                 "comment": $('#comment').val(),
                 "isFoiled": $('#isFoiled').prop("checked"),
                 "isSigned": $('#isSigned').prop("checked"),
                 "isAltered": $('#isAltered').prop("checked"),
                 "price": $('#price').val(),
-                "userId": token.userId
+                "userId": token.userId,
+                "wantedCard": $("#wanted").prop("checked"),
+                "offeredCard": $("#offered").prop("checked")
             };
             $.ajax({
                 url: host + "/user/cards",
@@ -105,8 +105,6 @@ $(document).ready(function () {
                 crossDomain: true,
             }).done(function (result, jqXHR, status) {
                 alert("dodano kartę");
-                console.log(submitCard);
-                // window.location.replace("./index.html");
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 console.log(submittedCard);
                 console.log("nie dodano karty");
