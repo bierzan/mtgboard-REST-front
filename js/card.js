@@ -14,6 +14,7 @@ $(document).ready(function () {
     })
 
     submitCard();
+    getChart();
 
     function getAndLoadCardByNameAndSetName() {
 
@@ -63,7 +64,7 @@ $(document).ready(function () {
             dataType: "json",
             contentType: "application/json"
         }).done(function (result) {
-           
+
             fillWebsiteWithCardData(findCardBySetNameFromJSONArray(result, setName));
         })
     }
@@ -112,6 +113,41 @@ $(document).ready(function () {
         });
 
 
+    }
+
+    function getChart() {
+        var ctx = document.getElementById('myChart');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'], //tablica dat generowana automatycznie
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3], //dane do zmapowania
+                    fill: false,
+                    borderWidth: 3,
+                    borderColor: "red",
+                    lineTension: 0
+                },
+                {
+                    label: '# of Votes',
+                    data: [4, 5, 16, 40, 11, 3],
+                    fill: false,
+                    borderWidth: 3,
+                    borderColor: "blue",
+                    lineTension: 0
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
     }
 })
 

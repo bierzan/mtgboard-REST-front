@@ -18,6 +18,9 @@
                 crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css" />
+
         <script src="js/navbar.js"></script>
         <script src="js/searchbar.js"></script>
         <script src="js/card.js"></script>
@@ -28,9 +31,9 @@
         <div id="navigation"></div>
         <div id="searchHeader"></div>
         <div class="table-responsive container" id="cardInfo">
-                <table class="table">
+                <table class="table table-borderless table-sm">
                         <tr>
-                                <td colspan="2">
+                                <td colspan="6">
                                         <h3></h3>
                                 </td>
                         </tr>
@@ -40,29 +43,57 @@
                                 </td>
                         </tr>
                         <tr>
-                                <td rowspan="6" id="cardImage">
+                                <td rowspan="5" colspan="2" id="cardImage" align="center">
                                 </td>
-                                <td id="manaCost">
-                                </td>
-                        </tr>
-                        <tr>
-                                <td id="rarity"></td>
-                        </tr>
-                        <tr>
-                                <td id="type"></td>
-                        </tr>
-                        <tr>
-                                <td id="text"></td>
-                        </tr>
-                        <tr>
-                                <td id="flavor"></td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <button type="button" class="btn btn-primary btn-block btn-sm"
-                                                id="wantCard">Kup / Sprzedaj</button>
+                                <td colspan="4" id="manaCost">
                                 </td>
                         </tr>
+                        <tr>
+                                <td colspan="4" id="rarity"></td>
+                        </tr>
+                        <tr>
+                                <td colspan="4" id="type"></td>
+                        </tr>
+                        <tr>
+                                <td colspan="4" id="text"></td>
+                        </tr>
+                        <tr>
+                                <td colspan="4" id="flavor" class="font-italic"></td>
+                        </tr>
+                        <tr class="table-info">
+                                <td>Oferty sprzedaży</td>
+                                <td>999</td>
+                                <td style="background-color: white" rowspan="6" colspan="4"><canvas id="myChart"></canvas>
+                                       </td>
+                        </tr>
+                        <tr>
+                                <td>cena min.</td>
+                                <td>00.00</td>
+                                
+                        </tr>
+                        <tr>
+                                <td>cena śr.</td>
+                                <td>00.00</td>
+                        </tr>
+                        <tr class="table-info">
+                                <td>Oferty kupna</td>
+                                <td>999</td>
+                        </tr>
+                        <tr>
+                                <td>cena min.</td>
+                                <td>00.00</td>
+                        </tr>
+                        <tr>
+                                <td>cena śr.</td>
+                                <td>00.00</td>
+                        </tr>
+                        <tr>
+                                <td colspan="6">
+                                        <button type="button" class="btn btn-primary btn-block btn-sm" id="wantCard">Kup
+                                                / Sprzedaj</button>
+                                </td>
+                        </tr>
+
                 </table>
         </div>
         <div class="container" style="display: none" id="wantedForm">
@@ -124,7 +155,8 @@
                         <div class="form-group">
                                 <textarea class="form-control" rows="2" id="comment" placeholder="Komentarz"></textarea>
                         </div>
-                        <button type="button" class="btn btn-primary btn-block btn-sm" id="submitCard">Wystaw ofertę</button>
+                        <button type="button" class="btn btn-primary btn-block btn-sm" id="submitCard">Wystaw ofertę
+                        </button>
                 </form>
 
         </div>
