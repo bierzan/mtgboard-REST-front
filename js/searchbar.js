@@ -53,7 +53,7 @@ $(document).ready(function () {
             for (var i = 0; i < jsonArray.length; i++) {
                 var option = $('<option>');
                 var card = jsonArray[i];
-                var cardNameAndSet = card.name + " (" + card.set.name + ")";
+                var cardNameAndSet = card.name + " (" + card.setName + ")";
                 option.val(cardNameAndSet)
                 suggestedCards.append(option);
             }

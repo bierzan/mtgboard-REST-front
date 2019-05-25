@@ -15,6 +15,20 @@ $(document).ready(function () {
 
     submitCard();
     getChart();
+    
+    $("#wantFilter").click(function (e) {
+        $("#offerTable").find("tr[offerType='WANT']").css("display", "table-row");
+        $("#offerTable").find("tr[offerType='SELL']").css("display", "none");
+
+    })
+
+    $("#sellFilter").click(function (e) {
+        $("#offerTable").find("tr[offerType='WANT']").css("display", "none");
+        $("#offerTable").find("tr[offerType='SELL']").css("display", "table-row");
+
+    })
+
+    //////////////////////////
 
     function getAndLoadCardByNameAndSetName() {
 
@@ -35,7 +49,7 @@ $(document).ready(function () {
         var cardJson = JsonCard;
         $("#cardImage").append("<img src=" + cardJson.imageUrl + " alt=" + cardJson.name + " >")
         $('h3').append(cardJson.name);
-        $('h5').append(cardJson.set.name);
+        $('h5').append(cardJson.setName);
         $("#manaCost").append(cardJson.manaCost);
         $("#rarity").append(cardJson.rarity);
         $("#type").append(cardJson.type);
@@ -48,8 +62,10 @@ $(document).ready(function () {
             $("#languages").append("<option>" + languages[i] + "</option>")
         }
 
+        getCardOffersByCardId(cardJson.id, offerTypeFilter);
+
     }
-    function findCardBySetNameFromJSONArray(cardsArray, setName, callback) {
+    function findCardBySetNameFromJSONArray(cardsArray, setName) {
         for (var i = 0; i < cardsArray.length; i++) {
             if (cardsArray[i].set.name === setName) {
                 return cardsArray[i];
@@ -139,6 +155,9 @@ $(document).ready(function () {
                 }]
             },
             options: {
+                legend: {
+                    display: false
+                },
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -149,6 +168,58 @@ $(document).ready(function () {
             }
         });
     }
+
+    function fillCardOffers(array) {
+        table = $("#offerTable");
+        for (var i = 0; i < array.length; i++) {
+            table.append("<tr align='center' offerType=" + array[i].offerType + "></tr>");
+            var row = table.find("tr").last();
+            row.append("<td>" + array[i].userName + "</td>");
+            row.append("<td>" + array[i].cardCondition + "</td>");
+            if (array[i].foiled) {
+                row.append("<td>FOIL</td>");
+            } else {
+                row.append("<td></td>");
+            }
+
+            row.append("<td>" + array[i].language + "</td>");
+            row.append("<td>" + array[i].comment + "</td>");
+            row.append("<td>" + array[i].price + "</td>");
+            row.append("<td>" + array[i].quantity + "</td>");
+            row.append("<td>" + "kontakt" + "</td>");
+
+        }
+    }
+
+    function getCardOffersByCardId(id, callback) {
+
+        $.ajax({
+            url: "http://localhost:8080/offers/" + id,
+            data: {},
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json"
+        }).done(function (result) {
+            fillCardOffers(result); //wypelnienie tabeli z danymi ofert
+            offerTypeFilter();
+        })
+
+        callback();
+    }
+
+    function offerTypeFilter() {
+        if (!$("#wantFilter").prop("checked")) {
+            $("#offerTable").find("tr[offerType='WANT']").css("display", "table-row");
+            $("#offerTable").find("tr[offerType='SELL']").css("display", "none");
+        } else {
+            $("#offerTable").find("tr[offerType='WANT']").css("display", "none");
+            $("#offerTable").find("tr[offerType='SELL']").css("display", "table-row");
+        }
+    }
+
+
+
+
 })
 
 

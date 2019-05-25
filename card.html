@@ -2,164 +2,192 @@
 <html>
 
 <head>
-        <meta charset="utf-8">
-        <title>MTG-BOARD</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-                crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-                crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-                crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-                crossorigin="anonymous"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<meta charset="utf-8">
+	<title>MTG-BOARD</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css" />
 
-        <script src="js/navbar.js"></script>
-        <script src="js/searchbar.js"></script>
-        <script src="js/card.js"></script>
+	<script src="js/navbar.js"></script>
+	<script src="js/searchbar.js"></script>
+	<script src="js/card.js"></script>
 
 </head>
 
 <body class="container">
-        <div id="navigation"></div>
-        <div id="searchHeader"></div>
-        <div class="table-responsive container" id="cardInfo">
-                <table class="table table-borderless table-sm">
-                        <tr>
-                                <td colspan="6">
-                                        <h3></h3>
-                                </td>
-                        </tr>
-                        <tr>
-                                <td colspan="2">
-                                        <h5></h5>
-                                </td>
-                        </tr>
-                        <tr>
-                                <td rowspan="5" colspan="2" id="cardImage" align="center">
-                                </td>
-                                <td colspan="4" id="manaCost">
-                                </td>
-                        </tr>
-                        <tr>
-                                <td colspan="4" id="rarity"></td>
-                        </tr>
-                        <tr>
-                                <td colspan="4" id="type"></td>
-                        </tr>
-                        <tr>
-                                <td colspan="4" id="text"></td>
-                        </tr>
-                        <tr>
-                                <td colspan="4" id="flavor" class="font-italic"></td>
-                        </tr>
-                        <tr class="table-info">
-                                <td>Oferty sprzedaży</td>
-                                <td>999</td>
-                                <td style="background-color: white" rowspan="6" colspan="4"><canvas id="myChart"></canvas>
-                                       </td>
-                        </tr>
-                        <tr>
-                                <td>cena min.</td>
-                                <td>00.00</td>
-                                
-                        </tr>
-                        <tr>
-                                <td>cena śr.</td>
-                                <td>00.00</td>
-                        </tr>
-                        <tr class="table-info">
-                                <td>Oferty kupna</td>
-                                <td>999</td>
-                        </tr>
-                        <tr>
-                                <td>cena min.</td>
-                                <td>00.00</td>
-                        </tr>
-                        <tr>
-                                <td>cena śr.</td>
-                                <td>00.00</td>
-                        </tr>
-                        <tr>
-                                <td colspan="6">
-                                        <button type="button" class="btn btn-primary btn-block btn-sm" id="wantCard">Kup
-                                                / Sprzedaj</button>
-                                </td>
-                        </tr>
+	<div id="navigation"></div>
+	<div id="searchHeader"></div>
+	<div class="table-responsive container" id="cardInfo">
+		<table class="table table-borderless table-sm">
+			<tr>
+				<td colspan="6">
+					<h3></h3>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<h5></h5>
+				</td>
+			</tr>
+			<tr>
+				<td rowspan="5" colspan="2" id="cardImage" align="center">
+				</td>
+				<td colspan="4" id="manaCost">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4" id="rarity"></td>
+			</tr>
+			<tr>
+				<td colspan="4" id="type"></td>
+			</tr>
+			<tr>
+				<td colspan="4" id="text"></td>
+			</tr>
+			<tr>
+				<td colspan="4" id="flavor" class="font-italic"></td>
+			</tr>
+		</table>
+		<table class="table table-borderless table-sm">
+			<tr class="table-info">
+				<td width="190">Oferty sprzedaży</td>
+				<td width="50">999</td>
+				<td style="background-color: white" rowspan="8"><canvas id="myChart" width="400" height="150"></canvas>
+				</td>
+			</tr>
+			<tr>
+				<td>cena min.</td>
+				<td>00.00</td>
 
-                </table>
-        </div>
-        <div class="container" style="display: none" id="wantedForm">
-                <form class="form-horizontal">
-                        <div class="form-group" style="display: none">
-                                <input type="number" min="1" class="form-control" id="cardId" disabled="disabled">
-                        </div>
-                        <div class="form-check form-check-inline">
+			</tr>
+			<tr>
+				<td>cena śr.</td>
+				<td>00.00</td>
+			</tr>
+			<tr>
+				<td>cena min. foil</td>
+				<td>00.00</td>
+			</tr>
+			<tr class="table-info">
+				<td>Oferty kupna</td>
+				<td>999</td>
+			</tr>
+			<tr>
+				<td>cena min.</td>
+				<td>00.00</td>
+			</tr>
+			<tr>
+				<td>cena śr.</td>
+				<td>00.00</td>
+			</tr>
+			<tr>
+				<td>cena min. foil</td>
+				<td>00.00</td>
+			</tr>
+			<tr>
+				<td colspan="6">
+					<button type="button" class="btn btn-primary btn-block btn-sm" id="wantCard">Kup
+						/ Sprzedaj</button>
+				</td>
+			</tr>
 
-                                <label class="form-check-label"><input class="form-check-input" type="radio" id="wanted"
-                                                name="offerType" checked="checked">Kupię</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                                <label class="form-check-label"><input class="form-check-input" type="radio"
-                                                id="offered" name="offerType">Sprzedam</label>
-                        </div>
+		</table>
+	</div>
+	<div class="container" style="display: none" id="wantedForm">
+		<form class="form-horizontal">
+			<div class="form-group" style="display: none">
+				<input type="number" min="1" class="form-control" id="cardId" disabled="disabled">
+			</div>
+			<div class="form-check form-check-inline">
 
-                        <div class="form-group form-row">
-                                <div class="col">
-                                        <input type="number" min="1" class="form-control" id="quantity"
-                                                placeholder="Liczba kart">
-                                </div>
-                                <div class="col">
-                                        <select class="form-control" id="condition">
-                                                <option value="M">Mint</option>
-                                                <option value="NM">Near Mint</option>
-                                                <option value="EX">Excellent</option>
-                                                <option value="GD">Good</option>
-                                                <option value="LP">Light Played</option>
-                                                <option value="PL">Played</option>
-                                                <option value="POOR">Poor</option>
-                                        </select>
+				<label class="form-check-label"><input class="form-check-input" type="radio" id="wanted"
+						name="offerType" checked="checked">Kupię</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<label class="form-check-label"><input class="form-check-input" type="radio" id="offered"
+						name="offerType">Sprzedam</label>
+			</div>
 
-                                </div>
-                                <div class="form-group col">
-                                        <select class="form-control" id="languages">
+			<div class="form-group form-row">
+				<div class="col">
+					<input type="number" min="1" class="form-control" id="quantity" placeholder="Liczba kart">
+				</div>
+				<div class="col">
+					<select class="form-control" id="condition">
+						<option value="M">Mint</option>
+						<option value="NM">Near Mint</option>
+						<option value="EX">Excellent</option>
+						<option value="GD">Good</option>
+						<option value="LP">Light Played</option>
+						<option value="PL">Played</option>
+						<option value="POOR">Poor</option>
+					</select>
 
-                                        </select>
-                                </div>
-                                <div class="form-group col">
-                                        <input type="number" class="form-control" id="price" min="0.01" step="0.01"
-                                                placeholder="Cena">
-                                </div>
-                        </div>
+				</div>
+				<div class="form-group col">
+					<select class="form-control" id="languages">
 
-                        <div class="form-check form-check-inline">
-                                <label class="form-check-label"><input class="form-check-input" type="checkbox"
-                                                id="isFoiled">Foil</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                                <label class="form-check-label"><input class="form-check-input" type="checkbox"
-                                                id="isSigned">Podpisana</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                                <label class="form-check-label"><input class="form-check-input" type="checkbox"
-                                                id="isAltered">Alter</label>
+					</select>
+				</div>
+				<div class="form-group col">
+					<input type="number" class="form-control" id="price" min="0.01" step="0.01" placeholder="Cena">
+				</div>
+			</div>
 
-                        </div>
-                        <div class="form-group">
-                                <textarea class="form-control" rows="2" id="comment" placeholder="Komentarz"></textarea>
-                        </div>
-                        <button type="button" class="btn btn-primary btn-block btn-sm" id="submitCard">Wystaw ofertę
-                        </button>
-                </form>
+			<div class="form-check form-check-inline">
+				<label class="form-check-label"><input class="form-check-input" type="checkbox"
+						id="isFoiled">Foil</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<label class="form-check-label"><input class="form-check-input" type="checkbox"
+						id="isSigned">Podpisana</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<label class="form-check-label"><input class="form-check-input" type="checkbox"
+						id="isAltered">Alter</label>
 
-        </div>
+			</div>
+			<div class="form-group">
+				<textarea class="form-control" rows="2" id="comment" placeholder="Komentarz"></textarea>
+			</div>
+			<button type="button" class="btn btn-primary btn-block btn-sm" id="submitCard">Wystaw ofertę
+			</button>
+		</form>
+
+	</div>
+
+
+		<div id="cardOffers" class="btn-group btn-block btn-group-toggle btn-sm" data-toggle="buttons">
+				<label id="wantFilter" class="btn btn-light active">
+				  <input type="radio" name="options" autocomplete="off" checked> Oferty kupna
+				</label>
+				<label id="sellFilter" class="btn btn-light">
+				  <input type="radio" name="options" autocomplete="off"> Oferty Sprzedaży
+				</label>
+			  </div>
+		
+		<table id="offerTable" class="table table-sm">
+			<tr align="center">
+				<th>Użytkownik</th>
+				<th colspan="3">Informacje o karcie</th>
+				<th>Cena</th>
+				<th>Liczba</th>
+				<th>Kontakt</th>
+			</tr>
+		</table>
+	</div>
 
 </body>
 
