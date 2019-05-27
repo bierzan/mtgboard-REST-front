@@ -29,83 +29,77 @@
 <body class="container">
 	<div id="navigation"></div>
 	<div id="searchHeader"></div>
-	<div class="table-responsive container" id="cardInfo">
-		<table class="table table-borderless table-sm">
+	<div class="container mt-5" id="cardInfo">
+		<table class="table table-borderless table-sm small">
 			<tr>
-				<td colspan="6">
-					<h3></h3>
+				<td rowspan="7" id="cardImage" align="center">
 				</td>
+				<td colspan="2">
+					<h4></h4>
+				</td>
+				<td width=50% style="background-color: white" rowspan="7"><canvas id="myChart" width="100" height="70"></canvas>
+				</td>
+
 			</tr>
 			<tr>
 				<td colspan="2">
-					<h5></h5>
+					<h6></h6>
 				</td>
 			</tr>
 			<tr>
-				<td rowspan="5" colspan="2" id="cardImage" align="center">
-				</td>
-				<td colspan="4" id="manaCost">
-				</td>
+				<td id="manaCost"></td>
+				<td id="rarity"></td>
 			</tr>
 			<tr>
-				<td colspan="4" id="rarity"></td>
+				<td colspan="2" id="type"></td>
 			</tr>
 			<tr>
-				<td colspan="4" id="type"></td>
+				<td colspan="2" id="text"></td>
 			</tr>
 			<tr>
-				<td colspan="4" id="text"></td>
+				<td colspan="2" id="flavor" class="font-italic"></td>
 			</tr>
-			<tr>
-				<td colspan="4" id="flavor" class="font-italic"></td>
-			</tr>
-		</table>
-		<table class="table table-borderless table-sm">
-			<tr class="table-info">
-				<td width="190">Oferty sprzedaży</td>
-				<td width="50">999</td>
-				<td style="background-color: white" rowspan="8"><canvas id="myChart" width="400" height="150"></canvas>
-				</td>
-			</tr>
-			<tr>
-				<td>cena min.</td>
-				<td>00.00</td>
-
-			</tr>
-			<tr>
-				<td>cena śr.</td>
-				<td>00.00</td>
-			</tr>
-			<tr>
-				<td>cena min. foil</td>
-				<td>00.00</td>
-			</tr>
-			<tr class="table-info">
-				<td>Oferty kupna</td>
-				<td>999</td>
-			</tr>
-			<tr>
-				<td>cena min.</td>
-				<td>00.00</td>
-			</tr>
-			<tr>
-				<td>cena śr.</td>
-				<td>00.00</td>
-			</tr>
-			<tr>
-				<td>cena min. foil</td>
-				<td>00.00</td>
-			</tr>
-			<tr>
-				<td colspan="6">
-					<button type="button" class="btn btn-primary btn-block btn-sm" id="wantCard">Kup
-						/ Sprzedaj</button>
-				</td>
-			</tr>
-
 		</table>
 	</div>
-	<div class="container" style="display: none" id="wantedForm">
+	<div>
+		<table class="table table-borderless table-sm small">
+			<tr align="center">
+				<th style="background-color: lightcoral" colspan="5">Kupno</th>
+				<th style="background-color: lightskyblue" colspan="5">Sprzedaż</th>
+			</tr>
+			<tr align="center" class="font-weight-bold">
+				<td>Liczba</td>
+				<td>Cena min.</td>
+				<td>Cena śr.</td>
+				<td>Liczba Foil</td>
+				<td>Foil cena min.</td>
+				<td>Liczba</td>
+				<td>Cena min.</td>
+				<td>Cena śr.</td>
+				<td>Liczba Foil</td>
+				<td>Foil cena min.</td>
+			</tr>
+
+			<tr align="center">
+				<td id="want-quantity">999</td>
+				<td id="want-min">00.00</td>
+				<td id="want-avg">00.00</td>
+				<td id="want-foil-quantity">999</td>
+				<td id="want-foil-min">999</td>
+				<td id="sell-quantity">999</td>
+				<td id="sell-min">00.00</td>
+				<td id="sell-avg">00.00</td>
+				<td id="sell-foil-quantity">999</td>
+				<td id="sell-foil-min">00.00</td>
+
+
+
+			</tr>
+		</table>
+		<button type="button" class="btn btn-primary btn-block btn-sm" id="wantCard">Kup
+			/ Sprzedaj</button>
+	</div>
+	<div id="wantedForm" class="container" style="display: none">
 		<form class="form-horizontal">
 			<div class="form-group" style="display: none">
 				<input type="number" min="1" class="form-control" id="cardId" disabled="disabled">
@@ -169,24 +163,25 @@
 	</div>
 
 
-		<div id="cardOffers" class="btn-group btn-block btn-group-toggle btn-sm" data-toggle="buttons">
-				<label id="wantFilter" class="btn btn-light active">
-				  <input type="radio" name="options" autocomplete="off" checked> Oferty kupna
-				</label>
-				<label id="sellFilter" class="btn btn-light">
-				  <input type="radio" name="options" autocomplete="off"> Oferty Sprzedaży
-				</label>
-			  </div>
-		
-		<table id="offerTable" class="table table-sm">
-			<tr align="center">
-				<th>Użytkownik</th>
-				<th colspan="3">Informacje o karcie</th>
-				<th>Cena</th>
-				<th>Liczba</th>
-				<th>Kontakt</th>
-			</tr>
-		</table>
+	<div id="cardOffers" class="btn-group btn-block btn-group-toggle btn-sm" data-toggle="buttons">
+		<label id="wantFilter" class="btn btn-light active">
+			<input type="radio" name="options" autocomplete="off" checked> Oferty kupna
+		</label>
+		<label id="sellFilter" class="btn btn-light">
+			<input type="radio" name="options" autocomplete="off"> Oferty Sprzedaży
+		</label>
+	</div>
+
+	<table id="offerTable" class="table table-sm">
+		<tr align="center">
+			<th>Użytkownik</th>
+			<th colspan="3">Informacje o karcie</th>
+			<th>Komentarz</th>
+			<th>Cena</th>
+			<th>Liczba</th>
+			<th>Kontakt</th>
+		</tr>
+	</table>
 	</div>
 
 </body>

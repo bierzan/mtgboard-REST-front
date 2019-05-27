@@ -4,18 +4,19 @@ $(document).ready(function () {
     var setName = params.get("set").replace(/%20/g, " ");
     var host = "http://localhost:8080";
     var cardToLoad;
+    var context = document.getElementById('myChart');
 
     $("title").text("MTG-BOARD " + cardFullName + " " + setName);
+
     getAndLoadCardByNameAndSetName();
+    submitCard();
+
 
     $("#wantCard").click(function (e) {
         e.preventDefault();
         $("#wantedForm").toggle("fast");
     })
 
-    submitCard();
-    getChart();
-    
     $("#wantFilter").click(function (e) {
         $("#offerTable").find("tr[offerType='WANT']").css("display", "table-row");
         $("#offerTable").find("tr[offerType='SELL']").css("display", "none");
@@ -27,8 +28,6 @@ $(document).ready(function () {
         $("#offerTable").find("tr[offerType='SELL']").css("display", "table-row");
 
     })
-
-    //////////////////////////
 
     function getAndLoadCardByNameAndSetName() {
 
@@ -48,8 +47,8 @@ $(document).ready(function () {
     function fillWebsiteWithCardData(JsonCard) {
         var cardJson = JsonCard;
         $("#cardImage").append("<img src=" + cardJson.imageUrl + " alt=" + cardJson.name + " >")
-        $('h3').append(cardJson.name);
-        $('h5').append(cardJson.setName);
+        $('h4').append(cardJson.name);
+        $('h6').append(cardJson.cardSet);
         $("#manaCost").append(cardJson.manaCost);
         $("#rarity").append(cardJson.rarity);
         $("#type").append(cardJson.type);
@@ -63,7 +62,8 @@ $(document).ready(function () {
         }
 
         getCardOffersByCardId(cardJson.id, offerTypeFilter);
-
+        getPriceData(cardJson.id);
+        getAvgPriceChart(cardJson.id);
     }
     function findCardBySetNameFromJSONArray(cardsArray, setName) {
         for (var i = 0; i < cardsArray.length; i++) {
@@ -122,6 +122,7 @@ $(document).ready(function () {
                 crossDomain: true,
             }).done(function (result, jqXHR, status) {
                 alert("dodano kartę");
+                getCardOffersByCardId(submittedCard.cardId, offerTypeFilter);
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 console.log(submittedCard);
                 console.log("nie dodano karty");
@@ -130,52 +131,34 @@ $(document).ready(function () {
 
 
     }
-
-    function getChart() {
-        var ctx = document.getElementById('myChart');
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'], //tablica dat generowana automatycznie
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3], //dane do zmapowania
-                    fill: false,
-                    borderWidth: 3,
-                    borderColor: "red",
-                    lineTension: 0
-                },
-                {
-                    label: '# of Votes',
-                    data: [4, 5, 16, 40, 11, 3],
-                    fill: false,
-                    borderWidth: 3,
-                    borderColor: "blue",
-                    lineTension: 0
-                }]
-            },
-            options: {
-                legend: {
-                    display: false
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
+    function getAvgPriceChart(id) {
+        $.ajax({
+            url: host + "/offers/history/" + id,
+            data: {},
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json"
+        }).done(function (result) {
+            drawChart(result, context);
+        })
     }
-
     function fillCardOffers(array) {
         table = $("#offerTable");
+
+        var wantMin = 0.00;
+        var wantMinFoil = 0.00;
+        var wantQuantity = 0;
+        var sellMin = 0.00;
+        var sellMinFoil = 0.00;
+
+
         for (var i = 0; i < array.length; i++) {
+
             table.append("<tr align='center' offerType=" + array[i].offerType + "></tr>");
             var row = table.find("tr").last();
             row.append("<td>" + array[i].userName + "</td>");
             row.append("<td>" + array[i].cardCondition + "</td>");
+
             if (array[i].foiled) {
                 row.append("<td>FOIL</td>");
             } else {
@@ -194,13 +177,13 @@ $(document).ready(function () {
     function getCardOffersByCardId(id, callback) {
 
         $.ajax({
-            url: "http://localhost:8080/offers/" + id,
+            url: host + "/offers/" + id,
             data: {},
             type: "GET",
             dataType: "json",
             contentType: "application/json"
         }).done(function (result) {
-            fillCardOffers(result); //wypelnienie tabeli z danymi ofert
+            fillCardOffers(result);
             offerTypeFilter();
         })
 
@@ -215,6 +198,95 @@ $(document).ready(function () {
             $("#offerTable").find("tr[offerType='WANT']").css("display", "none");
             $("#offerTable").find("tr[offerType='SELL']").css("display", "table-row");
         }
+    }
+
+    function getPriceData(id) {
+        $.ajax({
+            url: host + "/offers/prices/" + id,
+            data: {},
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json"
+        }).done(function (result) {
+            fillPriceData(result);
+        })
+    }
+
+    function fillPriceData(prices) {
+        $("#want-quantity").text(prices.wantQuantity);
+        $("#want-min").text(prices.minWant);
+        $("#want-avg").text(prices.avgWant);
+        $("#want-foil-quantity").text(prices.wantFoilQuantity);
+        $("#want-foil-min").text(prices.minFoilWant);
+        $("#sell-quantity").text(prices.sellQuantity);
+        $("#sell-min").text(prices.minSell);
+        $("#sell-avg").text(prices.avgSell);
+        $("#sell-foil-quantity").text(prices.sellFoilQuantity);
+        $("#sell-foil-min").text(prices.minFoilSell);
+    }
+
+    function drawChart(pricesHistory, context) {
+
+        var wantDates = mapValuesToArray(pricesHistory.wants)[0];
+        var wantPrices = mapValuesToArray(pricesHistory.wants)[1];
+        var sellDates = mapValuesToArray(pricesHistory.sells)[0];
+        var sellPrices = mapValuesToArray(pricesHistory.sells)[1];
+
+        var myChart = new Chart(context, {
+            type: 'line',
+            data: {
+                labels: wantDates, //tablica dat generowana automatycznie
+                datasets: [{
+                    label: 'kupno',
+                    data: wantPrices, //dane do zmapowania
+                    fill: false,
+                    borderWidth: 3,
+                    borderColor: "lightskyblue",
+                    lineTension: 0
+                },
+                {
+                    label: 'sprzedaż',
+                    data: sellPrices,
+                    fill: false,
+                    borderWidth: 3,
+                    borderColor: "lightcoral",
+                    lineTension: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        // type: 'time',
+                        ticks: {
+                            autoSkip: true,
+                            maxTicksLimit: 31
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+
+    }
+
+    function mapValuesToArray(DatesAndPricesArray) {
+        var dates = [];
+        var prices = [];
+        for (var i = 0; i < DatesAndPricesArray.length; i++) {
+            dates.push(DatesAndPricesArray[i].date);
+            prices.push(DatesAndPricesArray[i].avgPrice);
+        }
+
+        return [dates, prices];
     }
 
 
