@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>MTG-BOARD</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css" />
+
+	<script src="js/navbar.js"></script>
+	<script src="js/searchbar.js"></script>
+	<script src="js/card.js"></script>
+
+</head>
+
+<body class="container">
+	<div id="navigation"></div>
+	<div id="searchHeader"></div>
+	<div class="container mt-5" id="cardInfo">
+		<table class="table table-borderless table-sm small">
+			<tr>
+				<td rowspan="7" id="cardImage" align="center">
+				</td>
+				<td colspan="2">
+					<h4></h4>
+				</td>
+				<td width=50% style="background-color: white" rowspan="7"><canvas id="myChart" width="100" height="70"></canvas>
+				</td>
+
+			</tr>
+			<tr>
+				<td colspan="2">
+					<h6></h6>
+				</td>
+			</tr>
+			<tr>
+				<td id="manaCost"></td>
+				<td id="rarity"></td>
+			</tr>
+			<tr>
+				<td colspan="2" id="type"></td>
+			</tr>
+			<tr>
+				<td colspan="2" id="text"></td>
+			</tr>
+			<tr>
+				<td colspan="2" id="flavor" class="font-italic"></td>
+			</tr>
+		</table>
+	</div>
+	<div>
+		<table class="table table-borderless table-sm small">
+			<tr align="center">
+				<th style="background-color: lightcoral" colspan="5">Kupno</th>
+				<th style="background-color: lightskyblue" colspan="5">Sprzedaż</th>
+			</tr>
+			<tr align="center" class="font-weight-bold">
+				<td>Liczba</td>
+				<td>Cena min.</td>
+				<td>Cena śr.</td>
+				<td>Liczba Foil</td>
+				<td>Foil cena min.</td>
+				<td>Liczba</td>
+				<td>Cena min.</td>
+				<td>Cena śr.</td>
+				<td>Liczba Foil</td>
+				<td>Foil cena min.</td>
+			</tr>
+
+			<tr align="center">
+				<td id="want-quantity">999</td>
+				<td id="want-min">00.00</td>
+				<td id="want-avg">00.00</td>
+				<td id="want-foil-quantity">999</td>
+				<td id="want-foil-min">999</td>
+				<td id="sell-quantity">999</td>
+				<td id="sell-min">00.00</td>
+				<td id="sell-avg">00.00</td>
+				<td id="sell-foil-quantity">999</td>
+				<td id="sell-foil-min">00.00</td>
+
+
+
+			</tr>
+		</table>
+		<button type="button" class="btn btn-primary btn-block btn-sm" id="wantCard">Kup
+			/ Sprzedaj</button>
+	</div>
+	<div id="wantedForm" class="container" style="display: none">
+		<form class="form-horizontal">
+			<div class="form-group" style="display: none">
+				<input type="number" min="1" class="form-control" id="cardId" disabled="disabled">
+			</div>
+			<div class="form-check form-check-inline">
+
+				<label class="form-check-label"><input class="form-check-input" type="radio" id="wanted"
+						name="offerType" checked="checked">Kupię</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<label class="form-check-label"><input class="form-check-input" type="radio" id="offered"
+						name="offerType">Sprzedam</label>
+			</div>
+
+			<div class="form-group form-row">
+				<div class="col">
+					<input type="number" min="1" class="form-control" id="quantity" placeholder="Liczba kart">
+				</div>
+				<div class="col">
+					<select class="form-control" id="condition">
+						<option value="M">Mint</option>
+						<option value="NM">Near Mint</option>
+						<option value="EX">Excellent</option>
+						<option value="GD">Good</option>
+						<option value="LP">Light Played</option>
+						<option value="PL">Played</option>
+						<option value="POOR">Poor</option>
+					</select>
+
+				</div>
+				<div class="form-group col">
+					<select class="form-control" id="languages">
+
+					</select>
+				</div>
+				<div class="form-group col">
+					<input type="number" class="form-control" id="price" min="0.01" step="0.01" placeholder="Cena">
+				</div>
+			</div>
+
+			<div class="form-check form-check-inline">
+				<label class="form-check-label"><input class="form-check-input" type="checkbox"
+						id="isFoiled">Foil</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<label class="form-check-label"><input class="form-check-input" type="checkbox"
+						id="isSigned">Podpisana</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<label class="form-check-label"><input class="form-check-input" type="checkbox"
+						id="isAltered">Alter</label>
+
+			</div>
+			<div class="form-group">
+				<textarea class="form-control" rows="2" id="comment" placeholder="Komentarz"></textarea>
+			</div>
+			<button type="button" class="btn btn-primary btn-block btn-sm" id="submitCard">Wystaw ofertę
+			</button>
+		</form>
+
+	</div>
+
+
+	<div id="cardOffers" class="btn-group btn-block btn-group-toggle btn-sm" data-toggle="buttons">
+		<label id="wantFilter" class="btn btn-light active">
+			<input type="radio" name="options" autocomplete="off" checked> Oferty kupna
+		</label>
+		<label id="sellFilter" class="btn btn-light">
+			<input type="radio" name="options" autocomplete="off"> Oferty Sprzedaży
+		</label>
+	</div>
+
+	<table id="offerTable" class="table table-sm">
+		<tr align="center">
+			<th>Użytkownik</th>
+			<th colspan="3">Informacje o karcie</th>
+			<th>Komentarz</th>
+			<th>Cena</th>
+			<th>Liczba</th>
+			<th>Kontakt</th>
+		</tr>
+	</table>
+	</div>
+
+</body>
+
+</body>
+
+</html>
+
+<!-- google-chrome --disable-web-security --user-data-dir="/tmp/someFolderName" -->
