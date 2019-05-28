@@ -36,7 +36,8 @@ $(document).ready(function () {
                 submitBtn.click(function (event) {
                     event.preventDefault();
                     getCardNameAndSetFromSearchInput();
-                    window.location.href ='./card.html?name=' + cardFullName + '&set='+ setName;
+                    updateCardSearchCounter();
+                    window.location.href = './card.html?name=' + cardFullName + '&set=' + setName;
                 })
             })
         }
@@ -57,6 +58,19 @@ $(document).ready(function () {
                 option.val(cardNameAndSet)
                 suggestedCards.append(option);
             }
+        }
+
+        function updateCardSearchCounter() {
+            $.ajax({
+                url: host + "/cards/counter/" + cardFullName + "/" + setName,
+                data: {},
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json"
+            }).done(function (result) {
+
+            })
+
         }
     })
 });

@@ -290,7 +290,7 @@ $(document).ready(function () {
     }
 
 
-
+//reload wykresu po dodaniu karty
 
 })
 
