@@ -37,7 +37,8 @@
 				<td colspan="2">
 					<h4></h4>
 				</td>
-				<td width=50% style="background-color: white" rowspan="7"><canvas id="myChart" width="100" height="70"></canvas>
+				<td width=50% style="background-color: white" rowspan="7"><canvas id="myChart" width="100"
+						height="70"></canvas>
 				</td>
 
 			</tr>
@@ -172,8 +173,32 @@
 		</label>
 	</div>
 
-	<table id="offerTable" class="table table-sm">
+	<table class="table table-sm small" id="messageForm" style="display:none">
+		<tr>
+			<td>
+				<div id='message' class='container'>
+					<form class='form-horizontal'>
+						<div class='form-group' style='display: none'>
+							<input type='number' min='1' class='form-control' id='userToId' disabled='disabled'>
+						</div>
+						<div class='form-group' style='display: none'>
+							<input type='number' min='1' class='form-control' id='offerId' disabled='disabled'>
+						</div>
+						<div class='form-group'>
+							<textarea class='form-control' rows='2' id='mail-message'
+								placeholder='Twoja wiadomość'></textarea>
+						</div>
+						<button type='button' class='btn btn-primary btn-block btn-sm' id='sendEmail'>Wyślij</button>
+					</form>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+
+	<table id="offerTable" class="table table-sm small">
 		<tr align="center">
+			<th>Nr</th>
 			<th>Użytkownik</th>
 			<th colspan="3">Informacje o karcie</th>
 			<th>Komentarz</th>
