@@ -27,6 +27,8 @@ $(document).ready(function () {
         $("#offerTable").find("tr[offerType='WANT']").css("display", "none");
         $("#offerTable").find("tr[offerType='SELL']").css("display", "table-row");
 
+
+        
     })
 
     function getAndLoadCardByNameAndSetName() {
@@ -156,6 +158,7 @@ $(document).ready(function () {
 
             table.append("<tr align='center' offerType=" + array[i].offerType + "></tr>");
             var row = table.find("tr").last();
+            row.append("<td>" + array[i].id + "</td>");
             row.append("<td>" + array[i].userName + "</td>");
             row.append("<td>" + array[i].cardCondition + "</td>");
 
@@ -169,10 +172,62 @@ $(document).ready(function () {
             row.append("<td>" + array[i].comment + "</td>");
             row.append("<td>" + array[i].price + "</td>");
             row.append("<td>" + array[i].quantity + "</td>");
-            row.append("<td>" + "kontakt" + "</td>");
-
+            row.append("<td>" + "<button id='sendMail' type='button' class='btn btn-sm'>kontakt</button></td>");
+            $("td").find("button").last().attr("offer-id", array[i].id);
+            $("td").find("button").last().attr("user-to-id", array[i].userId);
         }
+
+        table.find("button").click(function (e) {
+            e.preventDefault();
+            $("#messageForm").toggle("fast");
+            var oId = $(this).attr("offer-id");
+            $("#messageForm").find("#offerId").val(oId);
+
+            var uId = $(this).attr("user-to-id");
+            $("#messageForm").find("#userToId").val(uId);
+    
+            $("#messageForm").find("button").click(function (e) {
+
+                var offerId = $("#messageForm").find("#offerId").val();
+                var userToId = $("#messageForm").find("#userToId").val();
+    
+                sendMessage(offerId, userToId);              
+    
+            })
+        })
+
+       
     }
+
+    function sendMessage(offerId, userToId) {
+
+        var message = $("#mail-message").val();
+
+        var token = JSON.parse(sessionStorage.getItem("token"));
+        var userId = token.userId;
+        
+        var msg = {
+            userFromId: userId,
+            userToId: userToId,
+            offerId: offerId,
+            message: message,
+        };
+
+        $.ajax({
+            url: host + "/user/message/",
+            data: JSON.stringify(msg),
+            type: "POST",
+            headers: {
+                "authId": token.userId,
+                "authToken": token.mtgAuthToken
+            },
+            dataType: "json",
+            contentType: "application/json"
+        }).done(function (result) {
+            alert("wiadomosc zostala wyslana");
+        })
+    }
+
 
     function getCardOffersByCardId(id, callback) {
 
@@ -290,7 +345,7 @@ $(document).ready(function () {
     }
 
 
-
+    //reload wykresu po dodaniu karty
 
 })
 
