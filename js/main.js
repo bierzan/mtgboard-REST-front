@@ -19,11 +19,13 @@ $(document).ready(function () {
         })
     }
 
+    //window.location.href = './card.html?name=' + cardFullName + '&set=' + setName;
+
     function fillMainPage(cardsArray) {
         for (var i = 0; i < cardsArray.length; i++) {
             topCards.append("<div class=col-sm-3></div>");
             var col = topCards.find("div").last();
-            col.append(cardsArray[i].name);
+            col.append("<a href='./card.html?name="+cardsArray[i].name+"&set="+cardsArray[i].setName+"'>"+cardsArray[i].name+"</a>");
             col.append("<br>");
             col.append(cardsArray[i].setName);
             col.append("<br>");
