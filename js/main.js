@@ -7,13 +7,16 @@ $(document).ready(function () {
 
 
     function getTopSearchedCards(limit) {
-
         $.ajax({
             url: host + "/cards/counter/top/" + limit,
             data: {},
             type: "GET",
+            method: 'GET',
+            // headers: {
+            //     'Access-Control-Allow-Origin': '*'
+            // },
             dataType: "json",
-            contentType: "application/json"
+            contentType: "application/json",
         }).done(function (result) {
             fillMainPage(result);
         })
@@ -25,7 +28,7 @@ $(document).ready(function () {
         for (var i = 0; i < cardsArray.length; i++) {
             topCards.append("<div class=col-sm-3></div>");
             var col = topCards.find("div").last();
-            col.append("<a href='./card.html?name="+cardsArray[i].name+"&set="+cardsArray[i].setName+"'>"+cardsArray[i].name+"</a>");
+            col.append("<a href='./card.html?name=" + cardsArray[i].name + "&set=" + cardsArray[i].setName + "'>" + cardsArray[i].name + "</a>");
             col.append("<br>");
             col.append(cardsArray[i].setName);
             col.append("<br>");
